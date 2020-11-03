@@ -2,7 +2,7 @@ import speech_recognition as sr
 import pyttsx3
 import requests
 import json
-from actions import maryHour
+from actions import maryHour, maryToday, maryRemind
 
 speaker = pyttsx3.init()
 #rate = speaker.getProperty("rate")
@@ -19,25 +19,35 @@ def maryListen(source):
         print("You said: " + text)
         if "Mary" in text:
             if "time" in text:
-                speaker.say("it is " + maryHour())
+                speaker.say("It is " + maryHour())
 
-            elif "weather" in text:
+            if "weather" in text:
                 pass
             
-            elif "today" in text:
+            if "today" in text:
+                today = maryToday()
+                speaker.say("Today is " + today) 
+
+            if "play" in text:
                 pass
 
-            elif "play" in text:
+            if "reminder" in text:
+                textNumber = [int(char) for char in text.split() if char.isdigit()]
+                if "minute" in text:
+                    print("calling maryremind")
+                    maryRemind(textNumber, "minutes")
+                
+                elif "hour" in text:
+                    maryRemind(textNumber, "hours")
+
+                else:
+                    speaker.say("Sorry I could not set a reminder, try again")
+
+            if "google" in text:
                 pass
 
-            elif "reminder" in text:
-                pass
-
-            elif "goole" in text:
-                pass
-
-            else:
-                speaker.say("Hey!")
+            # else:
+            #     speaker.say("Hey!")
             speaker.runAndWait()
 
     except:
