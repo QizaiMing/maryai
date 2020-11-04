@@ -2,7 +2,7 @@ import speech_recognition as sr
 import pyttsx3
 import requests
 import json
-from actions import maryHour, maryToday, maryRemind
+from actions import maryHour, maryToday, maryRemind, maryCheckReminder
 
 speaker = pyttsx3.init()
 #rate = speaker.getProperty("rate")
@@ -11,48 +11,60 @@ speaker.setProperty("rate", 150)
 speaker.setProperty("voice", "female2")
 r = sr.Recognizer()
 
-def maryListen(source):
-    print("I'm listening")
-    audio = r.listen(source)
-    try:
-        text = r.recognize_google(audio)
-        print("You said: " + text)
-        if "Mary" in text:
-            if "time" in text:
-                speaker.say("It is " + maryHour())
+def main():
+    with sr.Microphone() as source:
+        while True:
+            tmp = open("tmp.txt", "r")
+            reminder = tmp.read()
+            if reminder:
+                text = maryCheckReminder(reminder)
+                if text:
+                    speaker.say(text)
+                    speaker.runAndWait()
 
-            if "weather" in text:
-                pass
-            
-            if "today" in text:
-                today = maryToday()
-                speaker.say("Today is " + today) 
+            print("I'm listening")
+            audio = r.listen(source)
+            try:
+                text = r.recognize_google(audio)
+                print("You said: " + text)
+                if "Mary" in text:
+                    if "time" in text:
+                        speaker.say("It is " + maryHour())
+                        speaker.runAndWait()
 
-            if "play" in text:
-                pass
+                    if "weather" in text:
+                        pass
+                    
+                    if "today" in text:
+                        today = maryToday()
+                        speaker.say("Today is " + today)
+                        speaker.runAndWait()
 
-            if "reminder" in text:
-                textNumber = [int(char) for char in text.split() if char.isdigit()]
-                if "minute" in text:
-                    print("calling maryremind")
-                    maryRemind(textNumber, "minutes")
-                
-                elif "hour" in text:
-                    maryRemind(textNumber, "hours")
+                    if "play" in text:
+                        pass
 
-                else:
-                    speaker.say("Sorry I could not set a reminder, try again")
+                    if "reminder" in text:
+                        textNumber = [int(char) for char in text.split() if char.isdigit()]
+                        number = textNumber[0]
+                        if "minute" in text:
+                            reminderEndTime = maryRemind(number, "minutes")
+                            tmp = open("tmp.txt", "w")
+                            tmp.write(reminderEndTime)
+                            tmp.close()
+                        
+                        elif "hour" in text:
+                            reminderEndTime = maryRemind(number, "hours")
+                            tmp = open("tmp.txt", "w")
+                            tmp.write(reminderEndTime)
+                            tmp.close()
 
-            if "google" in text:
-                pass
+                        else:
+                            speaker.say("Sorry I could not set a reminder, try again")
 
-            # else:
-            #     speaker.say("Hey!")
-            speaker.runAndWait()
+                    if "google" in text:
+                        pass
+            except:
+                print("Sorry, I did not recognize your voice")
 
-    except:
-        print("Sorry, I did not recognize your voice")
-
-with sr.Microphone() as source:
-    while True:
-        maryListen(source)
+if __name__ == "__main__":
+    main()
