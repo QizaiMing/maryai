@@ -1,5 +1,6 @@
 import requests
 from datetime import datetime, timedelta
+import wikipedia
 
 def maryHour():
     now = datetime.now()
@@ -28,3 +29,10 @@ def maryCheckReminder(endTime):
         tmp.write("")
         tmp.close()
         return text
+
+def maryWiki(query):
+    try:
+        summary = wikipedia.summary(query, sentences=2)
+        return summary
+    except:
+        return "Sorry I did not find that result"

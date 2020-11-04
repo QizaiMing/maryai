@@ -2,7 +2,7 @@ import speech_recognition as sr
 import pyttsx3
 import requests
 import json
-from actions import maryHour, maryToday, maryRemind, maryCheckReminder
+from actions import maryHour, maryToday, maryRemind, maryCheckReminder, maryWiki
 
 speaker = pyttsx3.init()
 #rate = speaker.getProperty("rate")
@@ -26,8 +26,9 @@ def main():
             audio = r.listen(source)
             try:
                 text = r.recognize_google(audio)
+                text = text.lower()
                 print("You said: " + text)
-                if "Mary" in text:
+                if "mary" in text:
                     if "time" in text:
                         speaker.say("It is " + maryHour())
                         speaker.runAndWait()
@@ -62,7 +63,11 @@ def main():
                             speaker.say("Sorry I could not set a reminder, try again")
 
                     if "google" in text:
-                        pass
+                        query = text.split("google ")
+                        search = query[1]
+                        summary = maryWiki(search)
+                        speaker.say(summary)
+                        speaker.runAndWait()
             except:
                 print("Sorry, I did not recognize your voice")
 
