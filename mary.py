@@ -2,7 +2,7 @@ import speech_recognition as sr
 import pyttsx3
 import requests
 import json
-from actions import maryHour, maryToday, maryRemind, maryCheckReminder, maryWiki
+from actions import maryHour, maryToday, maryRemind, maryCheckReminder, maryWiki, maryWeather
 
 speaker = pyttsx3.init()
 #rate = speaker.getProperty("rate")
@@ -30,11 +30,14 @@ def main():
                 print("You said: " + text)
                 if "mary" in text:
                     if "time" in text:
-                        speaker.say("It is " + maryHour())
+                        time = maryHour()
+                        speaker.say("It is " + time)
                         speaker.runAndWait()
 
                     if "weather" in text:
-                        pass
+                        weather = maryWeather()
+                        speaker.say("The current weather is " + weather)
+                        speaker.runAndWait()
                     
                     if "today" in text:
                         today = maryToday()
