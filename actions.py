@@ -3,8 +3,12 @@ from datetime import datetime, timedelta
 import wikipedia
 import json
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from time import sleep
 
+options = Options()
+options.binary_location = '/usr/bin/brave'
+driver_path = '/usr/bin/chromedriver'
 URL = "https://www.metaweather.com/api/location/"
 
 def maryHour():
@@ -58,19 +62,7 @@ def maryWeather(query="caracas"):
     return text
 
 def maryPlay(query):
-    query += " lyrics"
-    driver = webdriver.Firefox()
-    driver.get("https://www.youtube.com/")
-    sleep(2)
-    driver.find_element_by_xpath("//input[@id='search']").send_keys(query)
-    driver.find_element_by_xpath("//button[@id='search-icon-legacy']").click()
-    sleep(2)
-    videos = driver.find_elements_by_tag_name("a")
-    for video in videos:
-        title = video.get_attribute("title")
-        if query in title.lower():
-            video.click()
-            break
-    sleep(1)
-    driver.find_element_by_xpath("//button[@class='ytp-mute-button ytp-button']").click()
-maryPlay("toto africa")
+    query = query.replace(" ", "+")
+    driver = webdriver.Chrome(options = options, executable_path = driver_path)
+    driver.get(f"https://music.youtube.com/search?q={query}")
+maryPlay("africa")
