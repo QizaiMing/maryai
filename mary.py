@@ -2,13 +2,22 @@ import speech_recognition as sr
 import pyttsx3
 import requests
 import json
-from actions import maryHour, maryToday, maryRemind, maryCheckReminder, maryWiki, maryWeather
+from time import sleep
+from actions import (
+    maryHour,
+    maryToday,
+    maryRemind,
+    maryCheckReminder,
+    maryWiki,
+    maryWeather,
+    maryJoke
+)
 
 speaker = pyttsx3.init()
 #rate = speaker.getProperty("rate")
 speaker.setProperty("rate", 150)
 #voices = speaker.getProperty("voices")
-#speaker.setProperty("voice", "female2")
+speaker.setProperty("voice", "female2")
 r = sr.Recognizer()
 
 def main():
@@ -44,8 +53,14 @@ def main():
                         speaker.say("Today is " + today)
                         speaker.runAndWait()
 
-                    if "play" in text:
-                        pass
+                    if "joke" in text:
+                        setup, punchline = maryJoke()
+                        speaker.say(setup)
+                        speaker.runAndWait()
+                        sleep(1)
+                        speaker.say(punchline)
+                        speaker.runAndWait()
+
 
                     if "reminder" in text:
                         textNumber = [int(char) for char in text.split() if char.isdigit()]

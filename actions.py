@@ -2,13 +2,7 @@ import requests
 from datetime import datetime, timedelta
 import wikipedia
 import json
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from time import sleep
-
-options = Options()
-options.binary_location = '/usr/bin/brave'
-driver_path = '/usr/bin/chromedriver'
+JOKEURL = "https://official-joke-api.appspot.com/jokes/general/random"
 URL = "https://www.metaweather.com/api/location/"
 
 def maryHour():
@@ -61,8 +55,9 @@ def maryWeather(query="caracas"):
     text = "{0}, with {1} degrees".format(weather, temperature)
     return text
 
-def maryPlay(query):
-    query = query.replace(" ", "+")
-    driver = webdriver.Chrome(options = options, executable_path = driver_path)
-    driver.get(f"https://music.youtube.com/search?q={query}")
-maryPlay("africa")
+def maryJoke():
+    response = requests.get(JOKEURL)
+    joke = response.json()
+    setup = joke[0]["setup"]
+    punchline = joke[0]["punchline"]
+    return setup, punchline
