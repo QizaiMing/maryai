@@ -45,7 +45,7 @@ def main():
 
                     if "weather" in text:
                         weather = maryWeather()
-                        speaker.say("The current weather is " + weather)
+                        speaker.say(weather)
                         speaker.runAndWait()
                     
                     if "today" in text:
@@ -54,12 +54,16 @@ def main():
                         speaker.runAndWait()
 
                     if "joke" in text:
-                        setup, punchline = maryJoke()
-                        speaker.say(setup)
-                        speaker.runAndWait()
-                        sleep(1)
-                        speaker.say(punchline)
-                        speaker.runAndWait()
+                        joke, err = maryJoke()
+                        if not err:
+                            speaker.say(joke["setup"])
+                            speaker.runAndWait()
+                            sleep(1)
+                            speaker.say(joke["punchline"])
+                            speaker.runAndWait()
+                        else:
+                            speaker.say(joke)
+                            speaker.runAndWait()
 
 
                     if "reminder" in text:

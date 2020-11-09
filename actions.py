@@ -44,20 +44,35 @@ def maryWeather(query="caracas"):
     woeidUrl = "search/?query={}".format(query)
     endPoint = URL + woeidUrl
 
-    response = requests.get(endPoint)
-    data = response.json()
-    woeid = data[0]["woeid"]
-    weatherResponse = requests.get(URL + str(woeid))
+    try:
+        response = requests.get(endPoint)
+        data = response.json()
+        woeid = data[0]["woeid"]
+        weatherResponse = requests.get(URL + str(woeid))
 
-    weatherJson = weatherResponse.json()
-    weather = weatherJson["consolidated_weather"][0]["weather_state_name"]
-    temperature = int(weatherJson["consolidated_weather"][0]["the_temp"])
-    text = "{0}, with {1} degrees".format(weather, temperature)
-    return text
+        weatherJson = weatherResponse.json()
+        weather = weatherJson["consolidated_weather"][0]["weather_state_name"]
+        temperature = int(weatherJson["consolidated_weather"][0]["the_temp"])
+        text = "the current weather is {0}, with a temperature of {1} degrees".format(weather, temperature)
+        return text
+
+    except:
+        return "sorry an error occurred while I was looking for the weather"
 
 def maryJoke():
-    response = requests.get(JOKEURL)
-    joke = response.json()
-    setup = joke[0]["setup"]
-    punchline = joke[0]["punchline"]
-    return setup, punchline
+    try:
+        response = requests.get(JOKEURL)
+        jokeResponse = response.json()
+        setup = jokeResponse[0]["setup"]
+        punchline = jokeResponse[0]["punchline"]
+        joke = {
+            "setup": setup,
+            "punchline": punchline
+        }
+        err = False
+        return joke, err  #dict, boolean
+    
+    except:
+        err = True
+        info = "sorry an error occurrend while I was looking for a joke"
+        return info, err
