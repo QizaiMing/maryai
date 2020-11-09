@@ -1,7 +1,9 @@
 # MaryAI
-Your own personal assistant based on Python
-Currently working on some of the main features, feel free to contribute
-Install the requirements change the voice parameter and try the AI<br>
-`pip install -r requirements.txt`<br>
-`python maryai.py`
-needs to get some work done on the "play" feature
+A personal assistant like Alexa or Siri based on Python<br />
+<strong>Features:</strong><br />
+- Tell the time
+- Tell the weather
+- What day is today
+- Tell a joke
+- Set a reminder
+- Google a definition
