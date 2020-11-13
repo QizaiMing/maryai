@@ -4,6 +4,7 @@ import wikipedia
 import json
 JOKEURL = "https://official-joke-api.appspot.com/jokes/general/random"
 URL = "https://www.metaweather.com/api/location/"
+CITY = "caracas"
 
 def maryHour():
     now = datetime.now()
@@ -40,7 +41,7 @@ def maryWiki(query):
     except:
         return "Sorry I did not find that result"
 
-def maryWeather(query="caracas"):
+def maryWeather(query=CITY):
     woeidUrl = "search/?query={}".format(query)
     endPoint = URL + woeidUrl
 
