@@ -16,8 +16,9 @@ from actions import (
 speaker = pyttsx3.init()
 #rate = speaker.getProperty("rate")
 speaker.setProperty("rate", 150)
-#voices = speaker.getProperty("voices")
-speaker.setProperty("voice", "female2")
+voices = speaker.getProperty("voices")
+speaker.setProperty('voice', voices[1].id)
+#speaker.setProperty("voice", "female2")
 r = sr.Recognizer()
 
 def main():
