@@ -9,7 +9,7 @@ A personal assistant like Alexa or Siri based on Python<br />
 - Google a definition
 <br />
 <strong>Tools:</strong><br />
-- Pyttsx3 Python Package
-- Speech Recognition Python Package
-- Pyaudio Python Package
+- Pyttsx3 Python Package<br />
+- Speech Recognition Python Package<br />
+- Pyaudio Python Package<br />
 - Wikipedia Python Package
