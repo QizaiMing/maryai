@@ -1,5 +1,5 @@
 # MaryAI
-A personal assistant like Alexa or Siri based on Python<br />
+A personal assistant like Alexa and Siri based on Python<br />
 <strong>Requirements</strong><br />
 - A working microphone plugged in<br />
 
